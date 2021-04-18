@@ -1,29 +1,66 @@
-import * as React from "react"
-import { Link } from "gatsby"
-import { StaticImage } from "gatsby-plugin-image"
+import React from 'react';
+import Layout from '../components/layout';
+import Encuentra from '../components/encuentra';
 
-import Layout from "../components/layout"
-import SEO from "../components/seo"
+import { getImage } from 'gatsby-plugin-image';
+import { convertToBgImage } from 'gbimage-bridge';
+import BackgroundImage from 'gatsby-background-image';
 
-const IndexPage = () => (
-  <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <StaticImage
-      src="../images/gatsby-astronaut.png"
-      width={300}
-      quality={95}
-      formats={["AUTO", "WEBP", "AVIF"]}
-      alt="A Gatsby astronaut"
-      style={{ marginBottom: `1.45rem` }}
-    />
-    <p>
-      <Link to="/page-2/">Go to page 2</Link> <br />
-      <Link to="/using-typescript/">Go to "Using TypeScript"</Link>
-    </p>
-  </Layout>
-)
+import { css } from '@emotion/react';
+import styled from '@emotion/styled';
 
-export default IndexPage
+import * as heroCSS from '../styles/hero.module.css';
+
+//Custom Hook
+import useInicio from '../hooks/useInicio';
+
+
+//Styled components
+const BgStyled = styled(BackgroundImage)`
+    margin-top: 0;
+    height: 600px;
+`;
+
+const Index = () => {
+
+    const inicio = useInicio();
+
+    //Destructuring
+    const { nombre, contenido, imagen } = inicio[0];
+
+    //Obteniendo imagen con helper
+    //En vez de hacer destructuring al objeto de imagen. imagen: { childImageSharp: { gatsbyImageData } }
+    const imagenObtenida = getImage(imagen);
+
+    //Para poder usar la imagen como un background
+    const bgImagen = convertToBgImage(imagenObtenida);
+
+    return (
+        <Layout>
+            <BgStyled
+                tag="section"
+                {...bgImagen}
+            >
+                <div className={heroCSS.imgbg}>
+                    <h1 className={heroCSS.titulo}>Venta  de casas y departamentos exclusivos</h1>
+                </div>
+            </BgStyled>
+            
+            <main>
+                <div css={css`
+                    max-width: 800px;
+                    margin: 0 auto;
+                `}>
+                    <h1>{nombre}</h1> 
+                    <p css={css`
+                        text-align: center;
+                    `}>{contenido}</p>
+                </div>
+            </main>
+           
+            <Encuentra/>
+        </Layout>
+    );
+};
+
+export default Index;

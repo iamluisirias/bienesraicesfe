@@ -1,42 +1,42 @@
-import * as React from "react"
-import PropTypes from "prop-types"
-import { Link } from "gatsby"
+import React from 'react';
+import { Link, graphql, useStaticQuery } from 'gatsby';
+import { css } from '@emotion/react';
 
-const Header = ({ siteTitle }) => (
-  <header
-    style={{
-      background: `rebeccapurple`,
-      marginBottom: `1.45rem`,
-    }}
-  >
-    <div
-      style={{
-        margin: `0 auto`,
-        maxWidth: 960,
-        padding: `1.45rem 1.0875rem`,
-      }}
-    >
-      <h1 style={{ margin: 0 }}>
-        <Link
-          to="/"
-          style={{
-            color: `white`,
-            textDecoration: `none`,
-          }}
-        >
-          {siteTitle}
-        </Link>
-      </h1>
-    </div>
-  </header>
-)
+import Navegacion from './navegacion';
 
-Header.propTypes = {
-  siteTitle: PropTypes.string,
-}
+const Header = () => {
 
-Header.defaultProps = {
-  siteTitle: ``,
-}
+    const { logo } = useStaticQuery(graphql`
+        {
+            logo: file(relativePath: {eq: "logo.svg"}) {
+                publicURL
+            }
+        }
+    `)
 
-export default Header
+    return (
+        <header css={css`
+            background-color: #0d283b;
+            padding: 1rem;
+        `}>
+            <div css={css`
+                max-width: 120rem;
+                margin: 0 auto;
+                text-align: center;
+
+                @media (min-width: 768px) {
+                    display: flex;
+                    align-items: center; 
+                    justify-content: space-between;
+                }
+            `}>
+               <Link to={'/'}>
+                   <img src={logo.publicURL} alt="Logotipo Bienes Raíces"/>
+               </Link>
+               <Navegacion/>
+           </div>
+        </header>
+    );
+};
+
+export default Header;

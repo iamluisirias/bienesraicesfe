@@ -1,15 +1,20 @@
 import React from 'react';
-import Layout from '../components/layout';
-import Encuentra from '../components/encuentra';
 
-import { getImage } from 'gatsby-plugin-image';
-import { convertToBgImage } from 'gbimage-bridge';
-import BackgroundImage from 'gatsby-background-image';
-
+//Styles
 import { css } from '@emotion/react';
 import styled from '@emotion/styled';
 
 import * as heroCSS from '../styles/hero.module.css';
+
+//Gatsby Images
+import { getImage } from 'gatsby-plugin-image';
+import { convertToBgImage } from 'gbimage-bridge';
+import BackgroundImage from 'gatsby-background-image';
+
+//Components
+import Layout from '../components/layout';
+import Encuentra from '../components/encuentra';
+import ListadoPropiedades from '../components/listadoPropiedades';
 
 //Custom Hook
 import useInicio from '../hooks/useInicio';
@@ -59,6 +64,7 @@ const Index = () => {
             </main>
            
             <Encuentra/>
+            <ListadoPropiedades/>
         </Layout>
     );
 };
